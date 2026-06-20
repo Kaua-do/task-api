@@ -1,8 +1,5 @@
 from pydantic import BaseModel, ConfigDict, Field
 from typing import Literal
-
-
-
 from app.schemas.categoria_schema import CategoriaResponse
 
 

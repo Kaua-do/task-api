@@ -45,14 +45,18 @@ def criar_tarefa_service(
         usuario: Usuario
 ):
 
-    if dados.categoria_id:
-        categoria_existe = db.query(Categoria).filter(Categoria.id == dados.categoria_id).first()
+    if dados.categoria_id != 0:
+        if dados.categoria_id:
+            categoria_existe = db.query(Categoria).filter(Categoria.id == dados.categoria_id).first()
 
-        if categoria_existe is None:
-            raise HTTPException(
-                status_code=400,
-                detail="Categoria inválida"
-            )
+            if categoria_existe is None:
+                raise HTTPException(
+                    status_code=400,
+                    detail="Categoria inválida"
+                )
+
+    if dados.categoria_id == 0:
+        dados.categoria_id = None
 
     nova_tarefa = Tarefa(
         id=str(uuid4()),

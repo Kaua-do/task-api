@@ -13,15 +13,6 @@ from app.routers.categoria_route import router as categoria_router
 from app.database import SessionLocal
 from app.services.categoria_service import (criar_categorias_padrao)
 
-Base.metadata.create_all(bind=engine)
-
-db = SessionLocal()
-
-try:
-    criar_categorias_padrao(db)
-finally:
-    db.close()
-
 app = FastAPI()
 
 @app.get("/")

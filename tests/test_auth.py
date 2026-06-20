@@ -82,18 +82,30 @@ def test_registrar_email_vazio():
     assert response.status_code == 422
 
 
-def test_login_usuario():
+def test_login_usuario(criar_usuario_e_token):
 
-    response = client.post(
-        "/auth/login",
-        data={
-            "username": "kaua@email.com",
-            "password": "123456"
+    email = f"{uuid.uuid4()}@email.com"
+
+    response_criar = client.post(
+        "/auth/register",
+        json={
+            "nome": "Kaua",
+            "email": email,
+            "senha": "123456789"
         }
     )
 
-    assert response.status_code == 200
-    assert "access_token" in response.json()
+    response_login = client.post(
+        "/auth/login",
+        data={
+            "username": email,
+            "password": "123456789"
+        }
+    )
+
+    assert response_criar.status_code == 200
+    assert response_login.status_code == 200
+    assert "access_token" in response_login.json()
 
 def test_login_senha_errada():
 

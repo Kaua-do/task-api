@@ -1,0 +1,10 @@
+coverage
+httpcore
+httpx
+iniconfig
+packaging
+pluggy
+pytest
+pytest-cov
+Pygments
+rich
