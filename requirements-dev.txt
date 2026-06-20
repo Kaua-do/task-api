@@ -1,10 +1,6 @@
-coverage
-httpcore
-httpx
-iniconfig
-packaging
-pluggy
-pytest
-pytest-cov
-Pygments
-rich
+pytest==9.0.3
+pytest-cov==7.1.0
+coverage==7.14.1
+
+httpx==0.28.1
+rich==14.3.3

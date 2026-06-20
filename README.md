@@ -1,95 +1,261 @@
 # TaskAPI
 
-API REST para gerenciamento de tarefas desenvolvida com FastAPI.
+API REST para gerenciamento de tarefas, usuários e categorias, desenvolvida com **FastAPI**, utilizando **PostgreSQL**, **SQLAlchemy**, **Alembic**, **JWT Authentication** e **Docker**.
 
-## Objetivo
+---
 
-Projeto criado para praticar conceitos fundamentais de desenvolvimento backend utilizando Python, incluindo autenticação JWT, arquitetura em camadas, validação de dados e testes automatizados.
+## Tecnologias utilizadas
 
-## Tecnologias
-
-* Python 3
+* Python 3.14
 * FastAPI
 * SQLAlchemy
-* SQLite
+* PostgreSQL
+* Alembic
 * JWT Authentication
-* Pydantic
+* Docker
 * Pytest
+* Pydantic
+
+---
 
 ## Funcionalidades
 
-### Usuários
+### Autenticação
 
-* Cadastro de usuário
+* Cadastro de usuários
 * Login com JWT
-* Atualização de perfil
 * Alteração de senha
+* Atualização de perfil
+
+### Categorias
+
+* Criar categoria
+* Listar categorias
+* Atualizar categoria
+* Excluir categoria
 
 ### Tarefas
 
 * Criar tarefa
 * Listar tarefas
 * Buscar tarefa por ID
+* Filtrar por categoria, prioridade, titulo, descrição
 * Atualizar tarefa
-* Alterar status
 * Excluir tarefa
 
-### Recursos adicionais
-
-* Busca textual
-* Filtros por status
-* Filtros por categoria
-* Filtros por prioridade
-* Ordenação
-* Paginação
+---
 
 ## Estrutura do projeto
 
-app/
+```
+TaskAPI
+│
+├── alembic/
+│   └── versions/
+│
+├── app/
+│   ├── core/
+│   ├── dependencies/
+│   ├── models/
+│   ├── routers/
+│   ├── schemas/
+│   ├── services/
+│   ├── database.py
+│   └── main.py
+│
+├── tests/
+│
+├── Dockerfile
+├── docker-compose.yml
+├── requirements.txt
+├── requirements-dev.txt
+├── alembic.ini
+└── README.md
+```
 
-* core/
-* dependencies/
-* models/
-* routers/
-* schemas/
-* services/
+---
 
-tests/
+## Instalação local
 
-## Como executar
+Clone o projeto:
+
+```bash
+git clone <https://github.com/Kaua-do/task-api.git>
+cd TaskAPI
+```
+
+Crie um ambiente virtual:
+
+### Windows
+
+```bash
+python -m venv .venv
+.venv\Scripts\activate
+```
+
+### Linux
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+```
 
 Instale as dependências:
 
+```bash
 pip install -r requirements.txt
+pip install -r requirements-dev.txt
+```
 
-Execute a aplicação:
+---
 
+## Configuração
+
+Crie um arquivo `.env`:
+
+```env
+DATABASE_URL=postgresql+psycopg2://postgres:123456@localhost:5432/taskapi
+SECRET_KEY=sua_chave_super_secreta
+ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=30
+```
+
+---
+
+## Executando as migrations
+
+```bash
+alembic upgrade head
+```
+
+---
+
+## Executando a API
+
+```bash
 uvicorn app.main:app --reload
+```
 
-Acesse a documentação:
+Documentação:
 
-http://127.0.0.1:8000/docs
+Swagger:
 
-## Testes
+```
+http://localhost:8000/docs
+```
 
-Executar todos os testes:
+ReDoc:
 
+```
+http://localhost:8000/redoc
+```
+
+---
+
+## Executando com Docker
+
+Subir os containers:
+
+```bash
+docker compose up --build
+```
+
+Executar as migrations:
+
+```bash
+docker compose exec api alembic upgrade head
+```
+
+Acessar a documentação:
+
+```
+http://localhost:8000/docs
+```
+
+---
+
+## Executando os testes
+
+```bash
 pytest
+```
 
-Executar com cobertura:
+Ou:
 
-pytest --cov=app --cov-report=html
+```bash
+pytest --cov=app
+```
 
-## Cobertura
+---
 
-Cobertura atual aproximada: 98%
+## Endpoints principais
 
-## Aprendizados
+### Autenticação
 
-* FastAPI
-* SQLAlchemy
-* JWT
-* Arquitetura em camadas
-* Testes automatizados
-* Validação com Pydantic
-* Organização de projetos backend
+```
+POST /auth/register
+POST /auth/login
+```
+
+### Usuários
+
+```
+GET  /usuarios/me
+PUT  /usuarios/me
+PUT  /usuarios/change-password
+```
+
+### Categorias
+
+```
+POST   /categorias
+GET    /categorias
+PUT    /categorias/{id}
+DELETE /categorias/{id}
+```
+
+### Tarefas
+
+```
+POST   /tarefas
+GET    /tarefas
+GET    /tarefas/{id}
+PUT    /tarefas/{id}
+DELETE /tarefas/{id}
+```
+
+---
+
+## Arquitetura
+
+A aplicação segue uma arquitetura em camadas:
+
+```
+Routers
+   ↓
+Services
+   ↓
+Models
+   ↓
+Database
+```
+
+As regras de negócio foram separadas em serviços para facilitar manutenção, organização e testes.
+
+---
+
+## Status do projeto
+
+✅ FastAPI
+✅ SQLAlchemy
+✅ PostgreSQL
+✅ Alembic
+✅ JWT Authentication
+✅ Docker
+✅ Testes automatizados
+✅ CRUD de Usuários
+✅ CRUD de Categorias
+✅ CRUD de Tarefas
+
+**Versão atual: v1.0**
+
