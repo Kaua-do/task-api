@@ -259,3 +259,31 @@ As regras de negócio foram separadas em serviços para facilitar manutenção, 
 
 **Versão atual: v1.0**
 
+
+## Aprendizados
+
+Durante o desenvolvimento desta API, foram praticados conceitos importantes de desenvolvimento backend, como:
+
+* Estruturação de projetos com FastAPI
+* Criação de APIs REST
+* Modelagem de banco de dados relacional
+* Uso do SQLAlchemy ORM
+* Gerenciamento de migrations com Alembic
+* Autenticação e autorização com JWT
+* Validação de dados com Pydantic
+* Arquitetura em camadas (Routers, Services e Models)
+* Containerização de aplicações com Docker
+* Escrita de testes automatizados com Pytest
+* Organização de dependências e ambientes de desenvolvimento
+* Versionamento de código utilizando Git e GitHub
+
+Este projeto representa uma aplicação completa de estudos em backend utilizando Python e serve como base para projetos mais avançados.
+
+---
+
+## Licença
+
+Este projeto foi desenvolvido para fins de estudo e aprendizado.
+
+Sinta-se livre para utilizá-lo como referência, modificar o código e adaptá-lo às suas necessidades.
+
