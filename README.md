@@ -287,3 +287,11 @@ Este projeto foi desenvolvido para fins de estudo e aprendizado.
 
 Sinta-se livre para utilizá-lo como referência, modificar o código e adaptá-lo às suas necessidades.
 
+
+API em produção:
+
+https://sua-api.onrender.com
+
+Documentação Swagger:
+
+https://sua-api.onrender.com/docs
