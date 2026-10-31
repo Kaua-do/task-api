@@ -1,3 +1,4 @@
+from datetime import datetime, timezone
 from sqlalchemy.orm import Session
 from sqlalchemy import or_
 from sqlalchemy import case
@@ -66,6 +67,7 @@ def criar_tarefa_service(
         status="pendente",
         usuario_id=usuario.id,
         categoria_id=dados.categoria_id,
+        data_prazo=dados.data_prazo
     )
 
     db.add(nova_tarefa)
@@ -151,31 +153,29 @@ def editar_tarefa_service(tarefa_id:str, tarefa_atualizada: TarefaUpdate, db: Se
 
     tarefa = buscar_tarefa_usuario(tarefa_id=tarefa_id,usuario=usuario,db=db)
 
-    if tarefa_atualizada.titulo is not None:
-        tarefa.titulo = tarefa_atualizada.titulo
+    dados = tarefa_atualizada.model_dump(exclude_unset=True)
 
-    if tarefa_atualizada.descricao is not None:
-        tarefa.descricao = tarefa_atualizada.descricao
+    if "categoria_id" in dados:
+        categoria_id = dados["categoria_id"]
 
-    if tarefa_atualizada.prioridade is not None:
-        tarefa.prioridade = tarefa_atualizada.prioridade
+        if categoria_id == 0:
+            dados["categoria_id"] = None
 
-    if tarefa_atualizada.categoria_id == 0:
-        tarefa.categoria_id = None
+        elif categoria_id is not None:
+            categoria_existente = db.query(Categoria).filter(
+                Categoria.id == categoria_id
+            ).first()
 
-    elif tarefa_atualizada.categoria_id is not None:
-        categoria_existente = db.query(Categoria).filter(Categoria.id == tarefa_atualizada.categoria_id).first()
+            if categoria_existente is None:
+                raise HTTPException(
+                    status_code=400,
+                    detail="Categoria inválida"
+                )
 
-        if categoria_existente is None:
-            raise HTTPException(
-                status_code=400,
-                detail="Categoria inválida"
-            )
-
-        tarefa.categoria_id = tarefa_atualizada.categoria_id
+    for campo, valor in dados.items():
+        setattr(tarefa, campo, valor)
 
     db.commit()
-
     db.refresh(tarefa)
 
     return tarefa
@@ -196,10 +196,16 @@ def alterar_status_service(tarefa_id: str, dados: AlterarStatusTarefa, db:Sessio
 
     tarefa.status = dados.status
 
+    if dados.status == 'concluida':
+        tarefa.data_conclusao = datetime.now(timezone.utc)
+    else:
+        tarefa.data_conclusao = None
+
     db.commit()
 
     db.refresh(tarefa)
 
+    return tarefa
 
 
 

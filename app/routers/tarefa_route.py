@@ -130,7 +130,7 @@ def deletar_tarefa(tarefa_id:str, db: Session = Depends(get_db), usuario: Usuari
         "mensagem": "Tarefa deletada"
     }
 
-@router.patch("/{tarefa_id}/status")
+@router.patch("/{tarefa_id}/status", response_model=TarefaResponse)
 def alterar_status(
         tarefa_id: str,
         dados: AlterarStatusTarefa,
@@ -138,15 +138,12 @@ def alterar_status(
         usuario: Usuario = Depends(get_current_user),
 ):
 
-    alterar_status_service(
+    tarefa = alterar_status_service(
         tarefa_id=tarefa_id,
         dados=dados,
         db=db,
         usuario=usuario
     )
 
-    return {
-        "mensagem":
-            f"Tarefa marcada como {dados.status}"
-    }
+    return tarefa
 

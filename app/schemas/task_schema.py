@@ -1,3 +1,4 @@
+from datetime import date, datetime
 from pydantic import BaseModel, ConfigDict, Field
 from typing import Literal
 from app.schemas.categoria_schema import CategoriaResponse
@@ -14,6 +15,7 @@ class TarefaCreate(BaseModel):
         "baixa"
     ] | None = None
     categoria_id: int | None = None
+    data_prazo: date | None = None
 
 
 class TarefaResponse(BaseModel):
@@ -23,6 +25,9 @@ class TarefaResponse(BaseModel):
     descricao: str
     prioridade: str | None = None
     status: str
+    criado_em: datetime
+    data_prazo: date | None = None
+    data_conclusao: datetime | None = None
     categoria: CategoriaResponse | None = None
 
     model_config = ConfigDict(
@@ -40,6 +45,7 @@ class TarefaUpdate(BaseModel):
         "baixa"
     ] | None = None
     categoria_id: int | None = None
+    data_prazo: date | None = None
 
 
 class AlterarStatusTarefa(BaseModel):
