@@ -4,7 +4,7 @@ class UserCreate(BaseModel):
 
     nome: str = Field(
         min_length=3,
-        max_length=100,
+        max_length=9,
     )
 
     email: EmailStr
@@ -38,7 +38,7 @@ class UserUpdate(BaseModel):
 
     nome: str = Field(
         min_length=3,
-        max_length=100,
+        max_length=9,
     )
 
     email: EmailStr

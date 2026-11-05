@@ -13,7 +13,17 @@ from app.routers.categoria_route import router as categoria_router
 from app.database import SessionLocal
 from app.services.categoria_service import (criar_categorias_padrao)
 
+from fastapi.middleware.cors import CORSMiddleware
+
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://127.0.0.1:5500"],
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 def home():
